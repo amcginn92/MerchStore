@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "g82WObVnaDGgbtSxkVMf1PQaMW3krVEEWx3DFU80NUQ=",
+  "Source": "MerchStore.Api",
+  "BasePath": "_content/MerchStore.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
