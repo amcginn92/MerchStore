@@ -10,14 +10,13 @@ public static class ProductsEndpoints
 
     public static RouteGroupBuilder MapProductEndpoints(this IEndpointRouteBuilder routes)
     {
-        InMemProductsRepository repo = new();
 
 
         var group = routes.MapGroup("/products");
 
-        group.MapGet("/", () => repo.getAll());
+        group.MapGet("/", (IProductsRepository repo) => repo.getAll());
 
-        group.MapGet("/{id}", (int id) =>
+        group.MapGet("/{id}", (IProductsRepository repo, int id) =>
         {
             Product? prod = repo.GetProd(id);
 
@@ -32,14 +31,14 @@ public static class ProductsEndpoints
 
         }).WithName(getProductEndpointName);
 
-        group.MapPost("/", (Product product) =>
+        group.MapPost("/", (IProductsRepository repo, Product product) =>
         {
             repo.CreateProd(product);
 
             return Results.CreatedAtRoute(getProductEndpointName, new { id = product.Id }, product);
         });
 
-        group.MapPut("/{id}", (Product updated, int id) =>
+        group.MapPut("/{id}", (IProductsRepository repo, Product updated, int id) =>
         {  //take updated product and id to replace
 
             Product? cur = repo.GetProd(id);    //find current product to update
@@ -59,7 +58,7 @@ public static class ProductsEndpoints
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id}", (int id) =>
+        group.MapDelete("/{id}", (IProductsRepository repo, int id) =>
         {
 
             Product? cur = repo.GetProd(id);

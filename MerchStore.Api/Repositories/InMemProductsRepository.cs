@@ -2,8 +2,7 @@
 using MerchStore.Api.Entities;
 
 namespace MerchStore.Api.Repositories;
-
-public class InMemProductsRepository
+public class InMemProductsRepository : IProductsRepository
 {
 
     private readonly List<Product> products = new(){
