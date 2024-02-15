@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MerchStore.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72e614ad32732c97c0ad24d48f45c556a522b4dc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+492ccf60531045c898c77247e1bb4a90e9fe09c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("MerchStore.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MerchStore.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
