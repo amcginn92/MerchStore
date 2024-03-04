@@ -1,3 +1,4 @@
+using MerchStore.Api.DTOs;
 using MerchStore.Api.Entities;
 using MerchStore.Api.Repositories;
 
@@ -14,7 +15,8 @@ public static class ProductsEndpoints
 
         var group = routes.MapGroup("/products");
 
-        group.MapGet("/", (IProductsRepository repo) => repo.getAll());
+        group.MapGet("/", (IProductsRepository repo) =>
+            repo.getAll().Select(prod => prod.AsDTO()));
 
         group.MapGet("/{id}", (IProductsRepository repo, int id) =>
         {
@@ -26,34 +28,41 @@ public static class ProductsEndpoints
             }
             else
             {
-                return Results.Json(prod);
+                return Results.Ok(prod.AsDTO());
             }
 
         }).WithName(getProductEndpointName);
 
-        group.MapPost("/", (IProductsRepository repo, Product product) =>
+        group.MapPost("/", (IProductsRepository repo, CreateProductDTO productDTO) =>
         {
-            repo.CreateProd(product);
+            Product prod = new()
+            {
+                Name = productDTO.Name,
+                Category = productDTO.Category,
+                Price = productDTO.Price
+            };
 
-            return Results.CreatedAtRoute(getProductEndpointName, new { id = product.Id }, product);
+            repo.CreateProd(prod);
+
+            return Results.CreatedAtRoute(getProductEndpointName, new { id = prod.Id }, prod);
         });
 
-        group.MapPut("/{id}", (IProductsRepository repo, Product updated, int id) =>
+        group.MapPut("/{id}", (IProductsRepository repo, UpdateProductDTO updatedProdDTO, int id) =>
         {  //take updated product and id to replace
 
-            Product? cur = repo.GetProd(id);    //find current product to update
+            Product? curProd = repo.GetProd(id);    //find current product to update
 
-            if (cur is null)
+            if (curProd is null)
             {
                 return Results.NotFound();
             }
 
-            // cur.Name = updated.Name;
-            // cur.Category = updated.Category;
-            // cur.Price = updated.Price;
+            curProd.Name = updatedProdDTO.Name;
+            curProd.Category = updatedProdDTO.Category;
+            curProd.Price = updatedProdDTO.Price;
 
-            updated.Id = cur.Id;
-            repo.Update(updated);
+
+            repo.Update(curProd);
 
             return Results.NoContent();
         });
