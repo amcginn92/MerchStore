@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("8c96a81d-52bb-4924-8d23-6f2fb583eb8d")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("MerchStore.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+62c934582d7d758d6a82eaba5035529c45141e0f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+628721093739ba526fce5248f0d03cf7112f9d00")]
 [assembly: System.Reflection.AssemblyProductAttribute("MerchStore.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MerchStore.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
