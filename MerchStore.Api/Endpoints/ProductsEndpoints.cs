@@ -15,12 +15,13 @@ public static class ProductsEndpoints
 
         var group = routes.MapGroup("/products");
 
-        group.MapGet("/", (IProductsRepository repo) =>
-            repo.getAll().Select(prod => prod.AsDTO()));
 
-        group.MapGet("/{id}", (IProductsRepository repo, int id) =>
+        group.MapGet("/", async (IProductsRepository repo) =>
+            (await repo.GetAllAsync()).Select(prod => prod.AsDTO()));
+
+        group.MapGet("/{id}", async (IProductsRepository repo, int id) =>
         {
-            Product? prod = repo.GetProd(id);
+            Product? prod = await repo.GetAsync(id);
 
             if (prod is null)
             {
@@ -33,7 +34,7 @@ public static class ProductsEndpoints
 
         }).WithName(getProductEndpointName);
 
-        group.MapPost("/", (IProductsRepository repo, CreateProductDTO productDTO) =>
+        group.MapPost("/", async (IProductsRepository repo, CreateProductDTO productDTO) =>
         {
             Product prod = new()
             {
@@ -42,15 +43,15 @@ public static class ProductsEndpoints
                 Price = productDTO.Price
             };
 
-            repo.CreateProd(prod);
+            await repo.CreateAsync(prod);
 
             return Results.CreatedAtRoute(getProductEndpointName, new { id = prod.Id }, prod);
         });
 
-        group.MapPut("/{id}", (IProductsRepository repo, UpdateProductDTO updatedProdDTO, int id) =>
+        group.MapPut("/{id}", async (IProductsRepository repo, UpdateProductDTO updatedProdDTO, int id) =>
         {  //take updated product and id to replace
 
-            Product? curProd = repo.GetProd(id);    //find current product to update
+            Product? curProd = (await repo.GetAsync(id));    //find current product to update
 
             if (curProd is null)
             {
@@ -62,19 +63,19 @@ public static class ProductsEndpoints
             curProd.Price = updatedProdDTO.Price;
 
 
-            repo.Update(curProd);
+            await repo.UpdateAsync(curProd);
 
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id}", (IProductsRepository repo, int id) =>
+        group.MapDelete("/{id}", async (IProductsRepository repo, int id) =>
         {
 
-            Product? cur = repo.GetProd(id);
+            Product? cur = await repo.GetAsync(id);
 
             if (cur is not null)
             {
-                repo.Delete(id);
+                await repo.DeleteAsync(id);
             }
 
             return Results.NoContent();

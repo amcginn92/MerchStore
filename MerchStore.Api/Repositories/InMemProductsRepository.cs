@@ -29,31 +29,37 @@ public class InMemProductsRepository : IProductsRepository
     };
 
 
-    public IEnumerable<Product> getAll()
+    public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        return products;
+        return await Task.FromResult(products);
     }
 
-    public Product? GetProd(int id)
+    public async Task<Product?> GetAsync(int id)
     {
-        return products.Find(product => product.Id == id);
+        return await Task.FromResult(products.Find(product => product.Id == id));
     }
 
-    public void CreateProd(Product prod)
+    public async Task CreateAsync(Product prod)
     {
         prod.Id = products.Max(cur => cur.Id) + 1;
         products.Add(prod);
+
+        await Task.CompletedTask;
     }
 
-    public void Update(Product updatedProd)
+    public async Task UpdateAsync(Product updatedProd)
     {
         var index = products.FindIndex(prod => prod.Id == updatedProd.Id);
         products[index] = updatedProd;
+
+        await Task.CompletedTask;
     }
-    public void Delete(int id)
+    public async Task DeleteAsync(int id)
     {
         var index = products.FindIndex(prod => prod.Id == id);
         products.RemoveAt(index);
+
+        await Task.CompletedTask;
 
     }
 

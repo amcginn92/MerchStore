@@ -13,29 +13,29 @@ public class EntityFrameworkProductRepository : IProductsRepository
         this.dbContext = dbContext;
     }
 
-    public IEnumerable<Product> getAll()
+    public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        return dbContext.Products.AsNoTracking().ToList();
+        return await dbContext.Products.AsNoTracking().ToListAsync();
     }
 
-    public Product? GetProd(int id)
+    public async Task<Product?> GetAsync(int id)
     {
-        return dbContext.Products.Find(id);
+        return await dbContext.Products.FindAsync(id);
     }
 
-    public void CreateProd(Product prod)
+    public async Task CreateAsync(Product prod)
     {
-        dbContext.Products.Add(prod);
-        dbContext.SaveChanges();
+        await dbContext.Products.AddAsync(prod);
+        await dbContext.SaveChangesAsync();
     }
-    public void Update(Product updatedProd)
+    public async Task UpdateAsync(Product updatedProd)
     {
         dbContext.Update(updatedProd);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
     {
-        dbContext.Products.Where(prod => prod.Id == id)
-            .ExecuteDelete();
+        await dbContext.Products.Where(prod => prod.Id == id)
+            .ExecuteDeleteAsync();
     }
 }

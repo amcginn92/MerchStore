@@ -9,7 +9,7 @@ builder.Services.AddRepositories(builder.Configuration);
 var app = builder.Build();
 
 //apply any missing migrations in db
-app.Services.InitializeDb();
+await app.Services.InitializeDbAsync();
 
 app.MapProductEndpoints();
 
